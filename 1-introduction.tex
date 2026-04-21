@@ -1,10 +1,43 @@
 \section{Introduction}
 \label{sec:intro}
-This is the introduction section. For consistency, use the
-\texttt{glossaries} package for acronyms such as ``\gls{SFR}".
-This automatically populates the glossaries list and abbreviates future
-mentions of ``\gls{SFR}".
 
-All tables and figures must be referenced to in the text.
-Use the BibTeX package to manage your paper references and bibliography
-\cite{huff_extensions_2014}.
+The existence of programs like the \Gls{GAIN} \cite{doe_gain_2025}, the
+\Gls{ARDP} \cite{doe_ardp_2025}, and the \Gls{RPP} \cite{doe_rpp_2025} show
+that there is serious private sector, academic, and governmental interest in
+advanced reactor designs. Computational tools capable of supporting the design,
+engineering, and analysis of these reactors are needed. Much of the
+engineering, safety analysis, and design work required for nuclear power
+reactors, in particular those pursuing a first design license, must account for
+situations outside of steady state operation. Deterministic methods are
+typically used to handle this, however there is growing interest in utilizing
+time-dependent Monte Carlo as a high-fidelity complement to time-dependent
+deterministic methods \cite{faucher_new_2018, jang_advances_2023,
+    romero-barrientos_td_2022, legrady_pb_2020, shaw_hybrid_2025,
+molnar_gpu_2019}.
+
+Time-dependent Monte Carlo simulations are computationally expensive, so
+variance reduction techniques are typically used to improve simulation
+performance. Time-dependent Cooper-Larsen weight windows have been shown to
+greatly increase the average \Gls{FOM} of a time-dependent simulation by five
+orders of magnitude compared to an analog simulation \cite{northrop_study_2024}.
+\Gls{FW-CADIS}, the ``gold standard'' \cite{munk_review_2019} of automatic
+variance reduction methods, has not been applied to time-dependent Monte Carlo
+in any currently published literature.  \Gls{FW-CADIS} weight windows have been
+shown to increase the \Gls{FOM} of a Monte Carlo up to two orders of magnitude
+over Cooper-Larsen weight windows, depending on the problem
+\cite{peplow_comparison_2012}. It is expected that this increase in \Gls{FOM}
+will be reflected in time-dependent problems as well.
+
+A time-dependent \Gls{FW-CADIS} implementation requires both a time-dependent
+Monte Carlo method {\it and} a time-dependent deterministic method to obtain the
+adjoint flux solution at each time step. \OpenMC, an open-source neutron
+particle transport code, recently gained a deterministic calculation mode based
+on the Random Ray Method \cite{tramm_random_2024}. The Random Ray Method is a
+form of the \gls{MOC} that uses random sampling to generate quadrature. This has
+several attractive properties for parallelization and memory usage that are
+highly beneficial if used for time-dependent simulations. The Random Ray
+implementation in \OpenMC already supports \Gls{FW-CADIS} for steady state
+problems. This has the benefit that the same geometry files can be used for the
+Monte Carlo and Random Ray simulations, provided the appropriate multi-group
+energy treatment is specified for the Random Ray simulations.
+
